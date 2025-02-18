@@ -1,6 +1,12 @@
 <?php
 
+use App\Models\data;
+use GuzzleHttp\Psr7\Query;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\Auth\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +19,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+
+Route::get('/', function() {
+    return view('Pages/Home');
 });
+
+Route::get('profile', function(){
+    return view('Pages/Profile');
+});
+
+Route::get('Auth/register', [UserController::class, 'create']);
+
+Route::post('/users', [UserController::class, 'store']);
+
+Auth::routes();
