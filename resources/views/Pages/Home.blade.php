@@ -46,7 +46,7 @@
                 @else
                     <!-- User Menu -->
                     <div class="flex items-center space-x-4">
-                        <a href=""><button class="text-black px-4 py-2 border border-1 rounded-lg transition duration-200 cursor-pointer">
+                        <a href="Auth/login"><button class="text-black px-4 py-2 border border-1 rounded-lg transition duration-200 cursor-pointer">
                             Login
                         </button></a>
                         <a href="Auth/register"><button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-200 cursor-pointer">
@@ -60,7 +60,7 @@
 
         <!-- Navigation Bar -->
     @if(session('status'))
-    <div x-data="{ open: true }" x-show="open" class="bg-green-500 text-white p-4 rounded-md shadow-md relative absolute z-50">
+    <div x-data="{ open: true }" x-show="open" class="bg-green-500 relative text-white w-full p-4 rounded-md shadow-md relative absolute z-50">
             <button @click="open = false" class="absolute top-2 right-2 text-white">
                 &times;
             </button>

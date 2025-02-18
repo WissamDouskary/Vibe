@@ -31,6 +31,10 @@ Route::get('profile', function(){
 
 Route::get('Auth/register', [UserController::class, 'create']);
 
+Route::get('Auth/login', [UserController::class, 'login']);
+
+Route::post('user/Autentificate', [UserController::class, 'Autentificate']);
+
 Route::post('/users', [UserController::class, 'store']);
 
 Route::post('/logout', [UserController::class, 'logout'])->middleware('auth');
