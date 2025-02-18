@@ -1,156 +1,66 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vibe - Register</title>
-    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
-</head>
-<body class="bg-gradient-to-b from-blue-50 to-blue-100 min-h-screen flex items-center justify-center p-4">
-    <div class="max-w-md w-full bg-white rounded-xl shadow-lg p-8">
-        <!-- Logo and Header -->
-        <div class="text-center mb-8">
-            <h1 class="text-4xl font-bold text-blue-600">Vibe</h1>
-            <p class="text-gray-600 mt-2">Create your account</p>
+<x-guest-layout>
+    <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
+        @csrf
+
+        <!-- fullname -->
+        <div>
+            <x-input-label for="fullname" :value="__('fullname')" />
+            <x-text-input id="fullname" class="block mt-1 w-full" type="text" name="fullname" :value="old('fullname')" required autofocus autocomplete="name" />
+            <x-input-error :messages="$errors->get('fullname')" class="mt-2" />
         </div>
 
-            
-        
-        <!-- Registration Form -->
-        <form class="space-y-6" action="{{ url('/users') }}" method="post" enctype="multipart/form-data">
-            @csrf
+        <!-- username -->
+        <div class="mt-4">
+            <x-input-label for="username" :value="__('username')" />
+            <x-text-input id="username" class="block mt-1 w-full" type="text" name="username" :value="old('username')" required autofocus autocomplete="name" />
+            <x-input-error :messages="$errors->get('username')" class="mt-2" />
+        </div>
 
-            <div>
-                <label class="block text-gray-700 mb-2" for="fullname">fullname</label>
-                <input 
-                    type="text" 
-                    id="fullname"
-                    name="fullname"
-                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
-                    placeholder="Enter your fullname"
-                >
-            </div>
+        <!-- username -->
+        <div class="mt-4">
+            <x-input-label for="profile_photo"/>
+            <x-text-input id="profile_photo" class="block mt-1 w-full" type="file" name="profile_photo" required autofocus autocomplete="name" />
+            <x-input-error :messages="$errors->get('profile_photo')" class="mt-2" />
+        </div>
 
-            @error('fullname')
+        <!-- Email Address -->
+        <div class="mt-4">
+            <x-input-label for="email" :value="__('Email')" />
+            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
+            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+        </div>
 
-            <div class="bg-red-100 border border-red-400 text-red-700 px-3 py-2 rounded-lg shadow-md max-w-md">
-                <p class="text-sm font-semibold">{{$message}}</p>
-            </div>
+        <!-- Password -->
+        <div class="mt-4">
+            <x-input-label for="password" :value="__('Password')" />
 
-            @enderror
+            <x-text-input id="password" class="block mt-1 w-full"
+                            type="password"
+                            name="password"
+                            required autocomplete="new-password" />
 
-            <!-- Username Field -->
-            <div>
-                <label class="block text-gray-700 mb-2" for="username">Username</label>
-                <input 
-                    type="text" 
-                    id="username"
-                    name="username"
-                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
-                    placeholder="Choose a username"
-                >
-            </div>
-            @error('username')
+            <x-input-error :messages="$errors->get('password')" class="mt-2" />
+        </div>
 
-            <div class="bg-red-100 border border-red-400 text-red-700 px-3 py-2 rounded-lg shadow-md max-w-md">
-                <p class="text-sm font-semibold">{{$message}}</p>
-            </div>
+        <!-- Confirm Password -->
+        <div class="mt-4">
+            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
 
-            @enderror
+            <x-text-input id="password_confirmation" class="block mt-1 w-full"
+                            type="password"
+                            name="password_confirmation" required autocomplete="new-password" />
 
-            <!-- Profile Photo Field -->
-            <div>
-                <label class="block text-gray-700 mb-2" for="profile_photo">Profile Photo</label>
-                <input 
-                    type="file" 
-                    id="profile_photo"
-                    name="profile_photo"
-                    class="w-full px-4 py-3 border border-gray-300 rounded-lg"
-                    placeholder="Choose a profile photo"
-                >
-            </div>
+            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+        </div>
 
-            @error('profile_photo')
+        <div class="flex items-center justify-end mt-4">
+            <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('login') }}">
+                {{ __('Already registered?') }}
+            </a>
 
-            <div class="bg-red-100 border border-red-400 text-red-700 px-3 py-2 rounded-lg shadow-md max-w-md">
-                <p class="text-sm font-semibold">{{$message}}</p>
-            </div>
-
-            @enderror
-
-            <!-- Email Field -->
-            <div>
-                <label class="block text-gray-700 mb-2" for="email">Email</label>
-                <input 
-                    type="email" 
-                    id="email"
-                    name="email"
-                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
-                    placeholder="Enter your email"
-                >
-            </div>
-            
-            @error('email')
-
-            <div class="bg-red-100 border border-red-400 text-red-700 px-3 py-2 rounded-lg shadow-md max-w-md">
-                <p class="text-sm font-semibold">{{$message}}</p>
-            </div>
-
-            @enderror
-            <!-- Password Field -->
-            <div>
-                <label class="block text-gray-700 mb-2" for="password">Password</label>
-                <input 
-                    type="password" 
-                    id="password"
-                    name="password"
-                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
-                    placeholder="Create a password"
-                >
-                <p class="text-sm text-gray-500 mt-2">Password must be at least 8 characters long</p>
-            </div>
-
-            @error('password')
-
-            <div class="bg-red-100 border border-red-400 text-red-700 px-3 py-2 rounded-lg shadow-md max-w-md">
-                <p class="text-sm font-semibold">{{$message}}</p>
-            </div>
-
-            @enderror
-
-            <!-- Password Field -->
-            <div>
-                <label class="block text-gray-700 mb-2" for="password">Confirme Password</label>
-                <input 
-                    type="password" 
-                    id="password"
-                    name="password_confirmation"
-                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
-                    placeholder="Confirme Password"
-                >
-            </div>
-            
-            @error('password_confirmation')
-
-            <div class="bg-red-100 border border-red-400 text-red-700 px-3 py-2 rounded-lg shadow-md max-w-md">
-                <p class="text-sm font-semibold">{{$message}}</p>
-            </div>
-
-            @enderror
-            <!-- Submit Button -->
-            <button 
-                type="submit" 
-                class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition duration-200 font-medium"
-            >
-                Create Account
-            </button>
-        </form>
-        
-        <!-- Login Link -->
-        <p class="text-center mt-6 text-gray-600">
-            Already have an account? 
-            <a href="{{ url('Auth/Login') }}" class="text-blue-600 hover:underline font-medium">Sign In</a>
-        </p>
-    </div>
-</body>
-</html>
+            <x-primary-button class="ms-4">
+                {{ __('Register') }}
+            </x-primary-button>
+        </div>
+    </form>
+</x-guest-layout>
