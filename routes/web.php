@@ -29,12 +29,12 @@ Route::get('profile', function(){
     return view('Pages/Profile');
 });
 
-Route::get('Auth/register', [UserController::class, 'create']);
+Route::get('Auth/register', [UserController::class, 'create'])->middleware('guest');
 
-Route::get('Auth/login', [UserController::class, 'login']);
+Route::get('Auth/login', [UserController::class, 'login'])->middleware('guest');
 
-Route::post('user/Autentificate', [UserController::class, 'Autentificate']);
+Route::post('user/Autentificate', [UserController::class, 'Autentificate'])->middleware('guest');
 
-Route::post('/users', [UserController::class, 'store']);
+Route::post('/users', [UserController::class, 'store'])->middleware('guest');
 
 Route::post('/logout', [UserController::class, 'logout'])->middleware('auth');
