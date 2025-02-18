@@ -43,9 +43,12 @@
                       class="hidden absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white ring-1 shadow-lg ring-black/5 focus:outline-hidden"
                       role="menu" aria-orientation="vertical" aria-labelledby="menu-button">
                       <div class="py-1" role="none">
+                        <a href="{{url('/')}}" class="block px-4 py-2 text-sm text-gray-700">Home</a>
                         <a href="{{url('profile')}}" class="block px-4 py-2 text-sm text-gray-700">Account Details</a>
-                        <a href="{{url('/')}}" class="block px-4 py-2 text-sm text-gray-700">Modify Account</a>
-                        <a href="{{url('Auth/Login')}}" class="block px-4 py-2 text-sm text-gray-700">Logout</a>
+                        <form class="inline" action="/logout" method="post">
+                            @csrf
+                            <input type="submit" class="block px-4 py-2 text-sm text-gray-700 cursor-pointer" value="Logout">
+                        </form>
                       </div>
                     </div>
                   </div>
@@ -60,7 +63,7 @@
             <div class="flex flex-col sm:flex-row items-center sm:items-start space-y-4 sm:space-y-0 sm:space-x-6">
                 <!-- Profile Picture -->
                 <div class="relative">
-                    <img src="/api/placeholder/160/160" alt="Profile picture" class="w-40 h-40 rounded-full object-cover">
+                    <img src="{{ asset('storage/' . auth()->user()->profile_photo) }}" alt="Profile picture" class="w-40 h-40 rounded-full object-cover">
                     <div class="absolute bottom-2 right-2 w-4 h-4 bg-green-400 rounded-full border-2 border-white"></div>
                 </div>
                 
@@ -68,15 +71,15 @@
                 <div class="flex-1 text-center sm:text-left">
                     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
                         <div>
-                            <h1 class="text-2xl font-bold text-gray-800">John Doe</h1>
-                            <p class="text-gray-600">@johndoe</p>
+                            <h1 class="text-2xl font-bold text-gray-800">{{auth()->user()->username}}</h1>
+                            <p class="text-gray-600">@ {{auth()->user()->username}}</p>
                         </div>
                         <button class="mt-4 sm:mt-0 inline-flex items-center px-4 py-2 border border-blue-600 rounded-lg text-blue-600 hover:bg-blue-50 transition duration-200">
                             Edit Profile
                         </button>
                     </div>
                     <p class="mt-4 text-gray-700 max-w-2xl">
-                        Frontend developer passionate about creating beautiful user interfaces. Always learning and exploring new technologies.
+                        {{ auth()->user()->bio ?? 'There is no bio yet.' }}
                     </p>
                 </div>
             </div>
@@ -92,19 +95,20 @@
                 <div class="space-y-4">
                     <div>
                         <h3 class="text-sm font-medium text-gray-500">Full Name</h3>
-                        <p class="mt-1 text-gray-800">John Doe</p>
+                        <p class="mt-1 text-gray-800">{{auth()->user()->fullname}}</p>
                     </div>
                     
                     <div>
                         <h3 class="text-sm font-medium text-gray-500">Username</h3>
-                        <p class="mt-1 text-gray-800">@johndoe</p>
+                        <p class="mt-1 text-gray-800">@ {{auth()->user()->username}}</p>
                     </div>
                     
                     <div>
                         <h3 class="text-sm font-medium text-gray-500">Email</h3>
-                        <p class="mt-1 text-gray-800">john.doe@example.com</p>
-                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 mt-1">
-                            Verified
+                        <p class="mt-1 text-gray-800">{{auth()->user()->email}}</p>
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium mt-1 
+                            {{ auth()->user()->email_verified_at ? 'bg-green-500 text-white' : 'bg-red-500 text-white' }}">
+                            {{ auth()->user()->email_verified_at ? 'Active' : 'Inactive' }}
                         </span>
                     </div>
                 </div>
@@ -113,7 +117,9 @@
                 <div class="space-y-4">
                     <div>
                         <h3 class="text-sm font-medium text-gray-500">Member Since</h3>
-                        <p class="mt-1 text-gray-800">January 15, 2024</p>
+                            <p class="mt-1 text-gray-800">
+                                {{ auth()->user()->created_at->format('F j, Y') }}
+                            </p>
                     </div>
                     
                     <div>

@@ -5,28 +5,68 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vibe - Home</title>
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script>
 </head>
 <body class="bg-gradient-to-b from-blue-50 to-blue-100 min-h-screen">
-    <!-- Navigation Bar -->
+
+
     <nav class="bg-white shadow-md">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16 items-center">
                 <div class="flex items-center">
                     <h1 class="text-2xl font-bold text-blue-600">Vibe</h1>
                 </div>
-                
-                <!-- User Menu -->
-                <div class="flex items-center space-x-4">
-                    <a href=""><button class="text-black px-4 py-2 border border-1 rounded-lg transition duration-200 cursor-pointer">
-                        Login
-                    </button></a>
-                    <a href="Auth/register"><button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-200 cursor-pointer">
-                        SignUp
-                    </button></a>
-                </div>
+                @auth
+                <div class="relative inline-block text-left">
+                    <div>
+                      <button type="button" id="menu-button" aria-expanded="false" aria-haspopup="true"
+                        class="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 shadow-xs ring-gray-300 ring-inset hover:bg-gray-50">
+                        Options
+                        <svg class="-mr-1 size-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                          <path fill-rule="evenodd"
+                            d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z"
+                            clip-rule="evenodd" />
+                        </svg>
+                      </button>
+                    </div>
+                  
+                    <div id="menu-dropdown"
+                      class="hidden absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white ring-1 shadow-lg ring-black/5 focus:outline-hidden"
+                      role="menu" aria-orientation="vertical" aria-labelledby="menu-button">
+                      <div class="py-1" role="none">
+                        <a href="{{url('/')}}" class="block px-4 py-2 text-sm text-gray-700">Home</a>
+                        <a href="{{url('profile')}}" class="block px-4 py-2 text-sm text-gray-700">Account Details</a>
+                        <form class="inline" action="/logout" method="post">
+                            @csrf
+                            <input type="submit" class="block px-4 py-2 text-sm text-gray-700 cursor-pointer" value="Logout">
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                @else
+                    <!-- User Menu -->
+                    <div class="flex items-center space-x-4">
+                        <a href=""><button class="text-black px-4 py-2 border border-1 rounded-lg transition duration-200 cursor-pointer">
+                            Login
+                        </button></a>
+                        <a href="Auth/register"><button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-200 cursor-pointer">
+                            SignUp
+                        </button></a>
+                    </div>
+                @endauth
             </div>
         </div>
     </nav>
+
+        <!-- Navigation Bar -->
+    @if(session('status'))
+    <div x-data="{ open: true }" x-show="open" class="bg-green-500 text-white p-4 rounded-md shadow-md relative absolute z-50">
+            <button @click="open = false" class="absolute top-2 right-2 text-white">
+                &times;
+            </button>
+            {{ session('status') }}
+        </div>
+    @endif
 
     <!-- Main Content -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -128,5 +168,27 @@
             </div>
         </div>
     </main>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const menuButton = document.getElementById("menu-button");
+            const menuDropdown = document.getElementById("menu-dropdown");
+        
+            menuButton.addEventListener("click", function (event) {
+                event.stopPropagation();
+                const isExpanded = menuButton.getAttribute("aria-expanded") === "true";
+                menuButton.setAttribute("aria-expanded", !isExpanded);
+                menuDropdown.classList.toggle("hidden");
+            });
+        
+            document.addEventListener("click", function (event) {
+                if (!menuButton.contains(event.target) && !menuDropdown.contains(event.target)) {
+                    menuButton.setAttribute("aria-expanded", "false");
+                    menuDropdown.classList.add("hidden");
+                }
+            });
+        });
+        
+            </script>
 </body>
 </html>
