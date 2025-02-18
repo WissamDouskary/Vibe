@@ -15,18 +15,28 @@
         </div>
         
         <!-- Login Form -->
-        <form class="space-y-6">
+        <form class="space-y-6" action="{{ url('user/Autentificate') }}" method="POST">
+            @csrf
             <!-- Email Field -->
             <div>
                 <label class="block text-gray-700 mb-2" for="email">Email</label>
                 <input 
                     type="email" 
                     id="email" 
+                    name="email"
                     class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
                     placeholder="Enter your email"
                     required
                 >
             </div>
+
+            @error('email')
+
+            <div class="bg-red-100 border border-red-400 text-red-700 px-3 py-2 rounded-lg shadow-md max-w-md">
+                <p class="text-sm font-semibold">{{$message}}</p>
+            </div>
+
+            @enderror
             
             <!-- Password Field -->
             <div>
@@ -37,22 +47,11 @@
                 <input 
                     type="password" 
                     id="password" 
+                    name="password"
                     class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
                     placeholder="Enter your password"
                     required
                 >
-            </div>
-            
-            <!-- Remember Me Checkbox -->
-            <div class="flex items-center">
-                <input 
-                    type="checkbox" 
-                    id="remember" 
-                    class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-                >
-                <label class="ml-2 text-gray-600" for="remember">
-                    Remember me
-                </label>
             </div>
             
             <!-- Login Button -->
