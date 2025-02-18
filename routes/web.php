@@ -1,40 +1,39 @@
 <?php
 
-use App\Models\data;
-use GuzzleHttp\Psr7\Query;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\Auth\AuthController;
-use App\Http\Controllers\Auth\VerificationController;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\Request;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
-
-
-Route::get('/', function() {
-    return view('Pages/Home');
+Route::get('/', function () {
+    return view('welcome');
 });
 
-Route::get('profile', function(){
-    return view('Pages/Profile');
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::get('Auth/register', [UserController::class, 'create'])->middleware('guest');
+require __DIR__.'/auth.php';
 
-Route::get('Auth/login', [UserController::class, 'login'])->middleware('guest');
+// email sender
+Route::get('/email/verify', function () {
+    return view('auth.verify-email');
+})->middleware('auth')->name('verification.notice');
 
-Route::post('user/Autentificate', [UserController::class, 'Autentificate'])->middleware('guest');
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
 
-Route::post('/users', [UserController::class, 'store'])->middleware('guest');
+    return redirect('/dashboard');
+})->middleware(['auth', 'signed'])->name('verification.verify');
 
-Route::post('/logout', [UserController::class, 'logout'])->middleware('auth');
+Route::post('/email/verification-notification', function (Request $request) {
+    $request->user()->sendEmailVerificationNotification();
+
+    return back()->with('status', 'verification-link-sent');
+})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
