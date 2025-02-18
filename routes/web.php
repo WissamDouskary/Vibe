@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Auth\VerificationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,4 +33,4 @@ Route::get('Auth/register', [UserController::class, 'create']);
 
 Route::post('/users', [UserController::class, 'store']);
 
-Auth::routes();
+Route::post('/logout', [UserController::class, 'logout'])->middleware('auth');

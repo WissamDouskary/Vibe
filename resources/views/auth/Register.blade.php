@@ -20,6 +20,25 @@
         <form class="space-y-6" action="{{ url('/users') }}" method="post" enctype="multipart/form-data">
             @csrf
 
+            <div>
+                <label class="block text-gray-700 mb-2" for="fullname">fullname</label>
+                <input 
+                    type="text" 
+                    id="fullname"
+                    name="fullname"
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                    placeholder="Enter your fullname"
+                >
+            </div>
+
+            @error('fullname')
+
+            <div class="bg-red-100 border border-red-400 text-red-700 px-3 py-2 rounded-lg shadow-md max-w-md">
+                <p class="text-sm font-semibold">{{$message}}</p>
+            </div>
+
+            @enderror
+
             <!-- Username Field -->
             <div>
                 <label class="block text-gray-700 mb-2" for="username">Username</label>
