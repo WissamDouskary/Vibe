@@ -18,8 +18,12 @@
         @method('patch')
 
         <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $user->fullname)" required autofocus autocomplete="name" />
+            <img src="{{ asset('storage/' . $user->profile_photo) }}" alt="Profile picture" class="w-40 h-40 rounded-full object-cover">
+        </div>
+
+        <div>
+            <x-input-label for="fullname" :value="__('fullname')" />
+            <x-text-input id="fullname" name="fullname" type="text" class="mt-1 block w-full" :value="old('fullname', $user->fullname)" required autofocus autocomplete="name" />
             <x-input-error class="mt-2" :messages="$errors->get('name')" />
         </div>
 
