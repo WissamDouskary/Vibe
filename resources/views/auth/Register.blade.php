@@ -16,11 +16,18 @@
             <x-input-error :messages="$errors->get('username')" class="mt-2" />
         </div>
 
-        <!-- username -->
+        <!-- profile photo -->
         <div class="mt-4">
             <x-input-label for="profile_photo"/>
             <x-text-input id="profile_photo" class="block mt-1 w-full" type="file" name="profile_photo" required autofocus autocomplete="name" />
             <x-input-error :messages="$errors->get('profile_photo')" class="mt-2" />
+        </div>
+
+        {{-- bio --}}
+        <div class="mt-4">
+            <x-input-label for="bio" :value="__('bio')" />
+            <x-text-input id="bio" class="block mt-1 w-full" type="text" name="bio" :value="old('bio')" autofocus autocomplete="bio" />
+            <x-input-error :messages="$errors->get('bio')" class="mt-2" />
         </div>
 
         <!-- Email Address -->
