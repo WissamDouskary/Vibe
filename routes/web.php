@@ -20,9 +20,11 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::get('/users', function(){
-    return view('users');
-})->middleware(['auth', 'verified'])->name('users');
+Route::get('/users', [UserController::class, 'getAllUsers'])
+->middleware(['auth', 'verified'])
+->name('users');
+
+Route::get('/search', [UserController::class, 'search']);
 
 require __DIR__.'/auth.php';
 
