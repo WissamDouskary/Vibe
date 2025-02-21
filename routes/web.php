@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Routing\RouteBinding;
 
 Route::get('/', function () {
     return view('welcome');
@@ -23,6 +24,8 @@ Route::middleware('auth')->group(function () {
 Route::get('/users', [UserController::class, 'getAllUsers'])
 ->middleware(['auth', 'verified'])
 ->name('users');
+
+Route::get('/users/{id}', [UserController::class, 'show']);
 
 Route::get('/search', [UserController::class, 'search']);
 

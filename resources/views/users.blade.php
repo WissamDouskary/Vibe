@@ -16,12 +16,15 @@
             <ul class="space-y-6 px-4">
                 @foreach($listusers as $user)
                 <li class="flex items-center space-x-4 bg-white dark:bg-gray-800 p-4 rounded-lg shadow">
-                    <div class="p-2">
-                        <img style="width: 45px; hight: 45px" class="rounded-full" src="{{asset('storage/' . $user->profile_photo)}}" alt="s">
-                    </div>
-                    <div>
-                        <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">{{ $user->fullname }}</h2>
-                        <p class="text-sm text-gray-500 dark:text-gray-400">@ {{ $user->username }}</p>
+                    <div class="flex items-center justify-between">
+                            <div class="p-2">
+                                <img class="w-20 h-20 sm:w-20 sm:h-20 md:w-32 md:h-32 lg:w-32 lg:h-32 xl:w-32 xl:h-32 rounded-full object-cover" src="{{asset('storage/' . $user->profile_photo)}}" alt="s">
+                            </div>
+                            <div>
+                                <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">{{ $user->fullname }}</h2>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">@ {{ $user->username }}</p>
+                                <a class="text-sm text-gray-500 dark:text-gray-400" href="users/{{$user->id}}">view details</a>
+                            </div>
                     </div>
                 </li>
                 @endforeach
