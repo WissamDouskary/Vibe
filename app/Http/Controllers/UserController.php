@@ -7,9 +7,9 @@ use Illuminate\Http\Request;
 
 Class UserController extends Controller{
     public static function getAllUsers(){
-        $listusers = User::all();
-        return view('users', compact('listusers'));
-    }
+    $listusers = User::where('id', '!=', auth()->id())->get();
+    return view('users', compact('listusers'));
+}
 
     public function search(Request $request){
         $query = request()->term;
@@ -19,5 +19,10 @@ Class UserController extends Controller{
         ->get();
 
         return view('/users', compact('listusers'));
+    }
+
+    public function show($id){
+        $user = User::find($id);
+        return view('user', compact('user'));
     }
 }

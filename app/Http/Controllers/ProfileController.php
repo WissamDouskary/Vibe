@@ -30,14 +30,11 @@ class ProfileController extends Controller
         $user = $request->user();
         $user->fill($request->validated());
     
-        // Handle profile picture upload
         if ($request->hasFile('profile_photo')) {
-            // Delete old picture if exists
             if ($user->profile_photo) {
                 Storage::disk('public')->delete($user->profile_photo);
             }
     
-            // Store new picture
             $path = $request->file('profile_photo')->store('profile_photos', 'public');
             $user->profile_photo = $path;
         }
